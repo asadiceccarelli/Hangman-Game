@@ -5,7 +5,6 @@ or you will get 0 for this assignment.
 '''
 import random
 
-from regex import R
 
 class Hangman:
     '''
@@ -68,20 +67,23 @@ class Hangman:
             The letter to be checked
         '''
         word_split = [i for i in self.word]
-        while letter.lower() in word_split:
-            occurance = word_split.index(letter.lower())
-            self.word_guessed[occurance] = letter.lower()
-            word_split[occurance] = '_'
+
+        if letter.lower() in word_split:
+            while letter.lower() in word_split:
+                occurance = word_split.index(letter.lower())
+                self.word_guessed[occurance] = letter.lower()
+                word_split[occurance] = '_'
         else:
             self.num_lives -= 1
             print(f'Sorry, {letter} is not in the word.')
             print(f'You have {self.num_lives} left.')
             return
-        
+    
         print(f'Nice! {letter} is in the word!')
         print(self.word_guessed)
+        self.num_letters.remove(letter)
+        return
         
-
 
     def ask_letter(self):
         '''
@@ -95,31 +97,26 @@ class Hangman:
             letter = input('Enter a letter and press enter: ')
             if len(letter) != 1:
                 print('Please, enter just one character')
+            elif letter in self.list_letters:
+                print(f'{letter} has already been tried.')
             else:
                 valid_letter = True
-    
-        if letter in self.list_letters:
-            print(f'{letter} has already been tried.')
         
+        self.list_letters.append(letter)
         self.check_letter(letter)
 
 
 def play_game(word_list):
     game = Hangman(word_list, num_lives=5)
-    game.ask_letter()
-    # TODO 3: To test this task, you call the ask_letter method and check if the letter is in the word
     
-    # TODO 4: Iteratively ask the user for a letter until the user guesses the word or runs out of lives
-    # If the user guesses the word, print "Congratulations, you won!"
-    # If the user runs out of lives, print "You ran out of lives. The word was {word}"
+    while game.num_lives > 0:
+        game.ask_letter()
+        if len(game.num_letters) == 0:
+            print('Congratulations, you won!')
+    else:
+        print(f'You ran out of lives. The word was \'{game.word}\'.')
 
-    pass
 
-# %%
 if __name__ == '__main__':
     word_list = ['apple', 'banana', 'orange', 'pear', 'strawberry', 'watermelon']
-    word_list = ['strawberry']
     play_game(word_list)
-
-
-# %%
