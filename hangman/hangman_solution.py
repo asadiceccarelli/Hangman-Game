@@ -76,7 +76,7 @@ class Hangman:
         else:
             self.num_lives -= 1
             print(f'Sorry, {letter} is not in the word.')
-            print(f'You have {self.num_lives} left.')
+            print(f'You have {self.num_lives} lives left.')
             return
     
         print(f'Nice! {letter} is in the word!')
@@ -113,10 +113,14 @@ def play_game(word_list):
         game.ask_letter()
         if len(game.num_letters) == 0:
             print('Congratulations, you won!')
+            return
     else:
         print(f'You ran out of lives. The word was \'{game.word}\'.')
+        return
 
 
 if __name__ == '__main__':
     word_list = ['apple', 'banana', 'orange', 'pear', 'strawberry', 'watermelon']
     play_game(word_list)
+
+# %%
