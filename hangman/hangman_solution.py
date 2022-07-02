@@ -50,6 +50,14 @@ class Hangman:
         self.num_letters = set([i for i in self.word])
         self.num_lives = num_lives
         self.list_letters = []
+        self.visual = {
+            5: f'__________\n  |      |\n  |\n  |\n  |\n__|____ ',
+            4: f'__________\n  |      |\n  |      O\n  |\n  |\n__|____',
+            3: f'__________\n  |      |\n  |      O\n  |      |\n  |\n__|____',
+            2: f'__________\n  |      |\n  |      O\n  |      |\n  |     /\n__|____',
+            1: f'__________\n  |      |\n  |      O\n  |      |\n  |     / \\\n__|____',
+            0: f'__________\n  |      |\n  |    \ O /\n  |      |\n  |     / \\\n__|____'
+        }
 
         print(f'The mystery word has {len(self.word)} characters.')
         print(self.word_guessed)
@@ -77,6 +85,7 @@ class Hangman:
             self.num_lives -= 1
             print(f'Sorry, {letter} is not in the word.')
             print(f'You have {self.num_lives} lives left.')
+            print(self.visual[self.num_lives])
             return
     
         print(f'Nice! {letter} is in the word!')
@@ -112,7 +121,7 @@ def play_game(word_list):
     while game.num_lives > 0:
         game.ask_letter()
         if len(game.num_letters) == 0:
-            print('Congratulations, you won!')
+            print(f'Congratulations, you won! The word was \'{game.word}\'.')
             return
     else:
         print(f'You ran out of lives. The word was \'{game.word}\'.')
@@ -122,5 +131,3 @@ def play_game(word_list):
 if __name__ == '__main__':
     word_list = ['apple', 'banana', 'orange', 'pear', 'strawberry', 'watermelon']
     play_game(word_list)
-
-# %%
